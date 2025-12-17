@@ -1,76 +1,68 @@
-import OpenAI from "openai";
+const textarea = document.getElementById("question");
+const sendBtn = document.getElementById("send");
+const answerDiv = document.getElementById("answer");
 
-export default async function handler(req, res) {
-  try {
-    if (req.method !== "POST") {
-      return res.status(405).end();
-    }
+let contextState = {
+  afklaringstype: null,
+  tema: null,
+  abstraktionsniveau: "korrekt",
+  gentagelse: false
+};
 
-    const { question, context } = req.body;
+function deriveContext(question) {
+  const q = question.toLowerCase();
 
-    if (!question || typeof question !== "string") {
-      return res.status(400).json({ error: "Invalid input" });
-    }
+  let tema = contextState.tema;
+  let afklaringstype = contextState.afklaringstype;
 
-    const client = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
-
-    const messages = [
-      {
-        role: "system",
-        content: `
-Du er et AI-baseret fagligt afklaringsværktøj om hypnoterapi.
-
-Din rolle er udelukkende at afklare spørgsmål fagligt gennem
-definition, afgrænsning og præcisering.
-
-Du kan modtage en struktureret kontekstblok, som angiver:
-- hvilken type faglig afklaring der er aktiv
-- hvilket tema der behandles
-- hvilket abstraktionsniveau der ønskes
-- om der er tale om gentagelse eller pres
-
-Denne kontekst repræsenterer ikke en relation, dialog eller proces.
-
-Du må ikke:
-- referere til tidligere spørgsmål eller svar
-- stille opklarende eller uddybende spørgsmål
-- invitere til fortsættelse
-- reagere relationelt, engagerende eller vurderende
-
-Hvis kontekst angiver gentagelse eller pres,
-skal svaret være kortere og mere afgrænsende.
-
-Svar altid samlet, nøgternt og afsluttet.
-        `,
-      },
-    ];
-
-    if (context && typeof context === "object") {
-      messages.push({
-        role: "system",
-        content: `KONTEKST (metadata, ikke dialog):\n${JSON.stringify(context)}`
-      });
-    }
-
-    messages.push({
-      role: "user",
-      content: question,
-    });
-
-    const completion = await client.chat.completions.create({
-      model: "gpt-4.1-mini",
-      temperature: 0,
-      messages,
-    });
-
-    return res.status(200).json({
-      answer: completion.choices[0].message.content,
-    });
-
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: "Server error" });
+  if (q.includes("angst") || q.includes("bange")) {
+    tema = "angst";
+    afklaringstype = "Betinget faglig afklaring";
+  } else if (q.includes("virker") || q.includes("effekt")) {
+    tema = "evidens";
+    afklaringstype = "Betinget faglig afklaring";
+  } else if (q.includes("kontrol") || q.includes("styre")) {
+    tema = "kontrol";
+    afklaringstype = "Faglig afvisning";
   }
+
+  const gentagelse =
+    tema === contextState.tema && afklaringstype === contextState.afklaringstype;
+
+  contextState = {
+    tema: tema || contextState.tema || "andet",
+    afklaringstype: afklaringstype || contextState.afklaringstype || "Betinget faglig afklaring",
+    abstraktionsniveau: "korrekt",
+    gentagelse
+  };
 }
+
+async function sendQuestion() {
+  const question = textarea.value.trim();
+  if (!question) return;
+
+  deriveContext(question);
+
+  answerDiv.textContent = "—";
+
+  const res = await fetch("/api/ask", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      question,
+      context: contextState
+    })
+  });
+
+  const data = await res.json();
+  answerDiv.textContent = data.answer || "[intet svar]";
+}
+
+sendBtn.addEventListener("click", sendQuestion);
+
+textarea.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendQuestion();
+  }
+});
