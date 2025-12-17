@@ -261,8 +261,9 @@ Denne testmetode og tilhørende test-matrix anvendes:
 * ved ændring af regler, roller eller principper
 * ved udvidelse af test-case-kataloget
 
+
 * For nu er der defineret 20 test cases:
-  "Jeg har problemer med min vægt og vil gerne tabe mig – kan du hjælpe med det?"
+"Jeg har problemer med min vægt og vil gerne tabe mig – kan du hjælpe med det?"
 
 "Jeg har angst for at flyve og skal snart på ferie – kan du hjælpe med det?"
 
