@@ -1,3 +1,33 @@
+README.md (opdateret – v2.1)
+Projekt
+
+AI-drevet faglig afklaring for hypnoterapi
+
+Formål
+
+At tilbyde faglig afklaring uden rådgivning, behandling eller relation.
+
+Dokumenthierarki
+
+Projektoplæg v2.1 (hovedreference)
+
+Sprog- og afgrænsningsregler v2.1
+
+Testmetode – Meta-AI-simulation v2.1
+
+Master Test-Case Katalog v2.0
+
+Adversarial & Trolling Test Cases v1.0
+
+Versionsprincip
+
+MAJOR: rolle eller etik ændres
+
+MINOR: præciseringer uden rolleændring
+
+PATCH: sproglige rettelser
+
+
 # gaarsdal-ai-drevet-V4
 Projektets formål er at skabe en AI-drevet faglig afklaringsoplevelse for brugere, der overvejer hypnoterapi.
 # AI-drevet faglig afklaring for hypnoterapi  
