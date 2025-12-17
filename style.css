@@ -1,0 +1,92 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #EFEDE7;
+  color: #2C2A28;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont,
+               "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.text-h1 {
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+.text-base-lg {
+  font-size: 18px;
+}
+
+header.hero {
+  padding: 4rem 1.5rem 3.5rem;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+main {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+section {
+  padding: 2.5rem 1.5rem;
+  border-bottom: 1px solid #D8D5CC;
+}
+
+section:last-child {
+  border-bottom: none;
+}
+
+.logo img {
+  max-width: 96px;
+  padding: 10px;
+  background: #F4F2ED;
+  border-radius: 8px;
+}
+
+h1, h2 {
+  font-weight: 500;
+  margin-bottom: 0.6rem;
+}
+
+p {
+  max-width: 65ch;
+}
+
+a {
+  color: #2C2A28;
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid #2C2A28;
+  text-decoration: none;
+}
+
+#faglig-afklaring textarea {
+  width: 100%;
+  max-width: 65ch;
+  margin-top: 0.5rem;
+}
+
+#faglig-afklaring button {
+  margin-top: 1rem;
+}
+
+#answer {
+  margin-top: 1.5rem;
+  max-width: 65ch;
+  white-space: pre-wrap;
+}
+
+footer {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  font-size: 0.9rem;
+}
