@@ -1,68 +1,83 @@
-const textarea = document.getElementById("question");
-const sendBtn = document.getElementById("send");
-const answerDiv = document.getElementById("answer");
+import OpenAI from "openai";
 
-let contextState = {
-  afklaringstype: null,
-  tema: null,
-  abstraktionsniveau: "korrekt",
-  gentagelse: false
-};
+export default async function handler(req, res) {
+  try {
+    if (req.method !== "POST") {
+      return res.status(405).json({ error: "Method not allowed" });
+    }
 
-function deriveContext(question) {
-  const q = question.toLowerCase();
+    if (!req.body || typeof req.body !== "object") {
+      return res.status(400).json({ error: "Missing body" });
+    }
 
-  let tema = contextState.tema;
-  let afklaringstype = contextState.afklaringstype;
+    const { question, context } = req.body;
 
-  if (q.includes("angst") || q.includes("bange")) {
-    tema = "angst";
-    afklaringstype = "Betinget faglig afklaring";
-  } else if (q.includes("virker") || q.includes("effekt")) {
-    tema = "evidens";
-    afklaringstype = "Betinget faglig afklaring";
-  } else if (q.includes("kontrol") || q.includes("styre")) {
-    tema = "kontrol";
-    afklaringstype = "Faglig afvisning";
+    if (!question || typeof question !== "string") {
+      return res.status(400).json({ error: "Invalid question" });
+    }
+
+    // HARD CONTEXT VALIDATION
+    let safeContext = null;
+    if (context && typeof context === "object") {
+      safeContext = {
+        afklaringstype: context.afklaringstype || "Betinget faglig afklaring",
+        tema: context.tema || "andet",
+        abstraktionsniveau: context.abstraktionsniveau || "korrekt",
+        gentagelse: Boolean(context.gentagelse)
+      };
+    }
+
+    const client = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+
+    const messages = [
+      {
+        role: "system",
+        content: `
+Du er et AI-baseret fagligt afklaringsværktøj om hypnoterapi.
+
+Du arbejder udelukkende med faglig afklaring gennem
+definition, afgrænsning og præcisering.
+
+Du må ikke:
+- rådgive
+- stille opklarende spørgsmål
+- invitere til fortsættelse
+- reagere relationelt eller engagerende
+
+Svar altid nøgternt, samlet og afsluttet.
+        `,
+      },
+    ];
+
+    if (safeContext) {
+      messages.push({
+        role: "system",
+        content: `KONTEKST (metadata, ikke dialog): ${JSON.stringify(safeContext)}`
+      });
+    }
+
+    messages.push({
+      role: "user",
+      content: question,
+    });
+
+    const completion = await client.chat.completions.create({
+      model: "gpt-4.1-mini",
+      temperature: 0,
+      messages,
+    });
+
+    return res.status(200).json({
+      answer: completion.choices[0].message.content
+    });
+
+  } catch (err) {
+    console.error("API ERROR:", err);
+    return res.status(500).json({
+      error: "Internal server error",
+      detail: err.message || String(err)
+    });
   }
-
-  const gentagelse =
-    tema === contextState.tema && afklaringstype === contextState.afklaringstype;
-
-  contextState = {
-    tema: tema || contextState.tema || "andet",
-    afklaringstype: afklaringstype || contextState.afklaringstype || "Betinget faglig afklaring",
-    abstraktionsniveau: "korrekt",
-    gentagelse
-  };
 }
-
-async function sendQuestion() {
-  const question = textarea.value.trim();
-  if (!question) return;
-
-  deriveContext(question);
-
-  answerDiv.textContent = "—";
-
-  const res = await fetch("/api/ask", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      question,
-      context: contextState
-    })
-  });
-
-  const data = await res.json();
-  answerDiv.textContent = data.answer || "[intet svar]";
-}
-
-sendBtn.addEventListener("click", sendQuestion);
-
-textarea.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    sendQuestion();
-  }
-});
