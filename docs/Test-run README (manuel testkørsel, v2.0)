@@ -1,0 +1,173 @@
+# Test-run README  
+**Manuel testkørsel – AI-drevet faglig afklaring (v2.0)**
+
+Dette dokument beskriver den **manuelle procedure** for at køre tests mod
+produkt-AI ved hjælp af **Meta-AI-simulation**, jf. de normative dokumenter.
+
+Dokumentet er et **drifts- og testartefakt** og er ikke en del af produktet.
+
+---
+
+## Forudsætninger
+
+Følgende dokumenter skal være til stede og låst i v2.0:
+
+- 01_Projektoplaeg_AI-drevet-faglig-afklaring_v2.0.md
+- 02_Sprog-og-afgraensningsregler_Produkt-AI_v2.0.md
+- 03_Testmetode_Meta-AI-simulation_v2.0.md
+- 04_Master-Test-Case-Katalog_v2.0.md
+- 05_Adversarial-and-Trolling-Test-Cases_v2.0.md
+
+Hvis ét dokument mangler eller ikke matcher versionen → **STOP**.
+
+---
+
+## Roller
+
+### AI-meta
+- Simulerer produkt-AI
+- Evaluerer output
+- Udfylder test-matrix
+- Dokumenterer afvigelser
+
+### Produkt-AI (simuleret)
+- Leverer det brugerrettede output
+- Har ingen viden om test, roller eller matrix
+
+---
+
+## Grundprincipper (bindende)
+
+- Produkt-AI-output og meta-evaluering **adskilles eksplicit**
+- Produkt-AI-output må:
+  - ikke forklare sig
+  - ikke invitere
+  - ikke være relationelt
+- Alle tests afsluttes med **test-matrix**
+
+---
+
+## Test-flow (trin for trin)
+
+### Trin 1 — Vælg test case
+- Udvælg én test case fra:
+  - Master Test-Case Katalog v2.0 **eller**
+  - Adversarial & Trolling v2.0
+- Notér **Test case ID**
+
+---
+
+### Trin 2 — Simulér produkt-AI
+
+AI-meta genererer:
+- **Produkt-AI (simuleret output)**  
+  Som det ville fremstå for brugeren
+
+Krav:
+- Lav-affektiv tone
+- Ingen rådgivning
+- Ingen relation
+- Korrekt afklaringstype
+
+---
+
+### Trin 3 — Evaluer adfærd
+
+AI-meta evaluerer output udelukkende ud fra:
+- observerbar adfærd
+- sproglig struktur
+- afgrænsningstype
+
+**Intention vurderes ikke.**
+
+---
+
+### Trin 4 — Udfyld test-matrix (obligatorisk)
+
+Anvend **fast kolonnestandard**:
+
+1. Test case ID  
+2. Afklaringstype  
+3. Abstraktionsniveau korrekt  
+4. Rådgivningsglidning  
+5. Relationel kontinuitet  
+6. Evidens korrekt anvendt  
+7. Anekdote-policy overholdt  
+8. Myte-/misforståelsesafklaring  
+9. Samlet status  
+10. Meta-note (valgfri, maks. 1–2 linjer)
+
+Manglende eller ændrede kolonner → **FAIL**.
+
+---
+
+### Trin 5 — Klassificér udfald
+
+- **OK**  
+  Ingen afvigelser
+
+- **OK med justering**  
+  Mindre designafvigelse (skal adresseres)
+
+- **Ikke OK**  
+  Rådgivning, relation, normativitet eller forkert stop
+
+---
+
+## Sekvenstest (hvis relevant)
+
+Ved sekvens-test:
+- Brugeren leverer al progression
+- Produkt-AI stiller **ingen spørgsmål**
+- Gentagelse evalueres som:
+  - neutral konsistens **eller**
+  - relationel glidning (FAIL)
+
+---
+
+## Dokumentation
+
+For hvert test-run skal der gemmes:
+
+- Test-run manifest (dato, commit, versionssæt)
+- Samlet test-matrix (alle TC)
+- Liste over fejlmønstre (hvis nogen)
+
+---
+
+## Stopkriterier
+
+Testkørsel skal **afbrydes**, hvis:
+- samme fejl gentages i ≥2 test cases
+- ny fejltype opstår uden dækkende regel
+- produkt-AI begynder at:
+  - forklare sig
+  - invitere
+  - legitimere
+
+→ Konsolider fejl i nyt dokument  
+→ Versionsløft (MINOR eller MAJOR)
+
+---
+
+## Forbud (bindende)
+
+Under test må AI-meta **ikke**:
+- rette produkt-AI-output undervejs
+- “hjælpe” svaret til at bestå
+- skjule fejl
+
+Test afdækker design – ikke performance.
+
+---
+
+## Status
+
+Denne procedure gælder for:
+- manuel regression
+- designvalidering
+- pre-CI sanity checks
+
+Automatiseret CI skal spejle denne proces.
+
+---
