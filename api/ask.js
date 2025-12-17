@@ -6,7 +6,7 @@ export default async function handler(req, res) {
       return res.status(405).end();
     }
 
-    const { question } = req.body;
+    const { question, context } = req.body;
 
     if (!question || typeof question !== "string") {
       return res.status(400).json({ error: "Invalid input" });
@@ -16,13 +16,10 @@ export default async function handler(req, res) {
       apiKey: process.env.OPENAI_API_KEY,
     });
 
-    const completion = await client.chat.completions.create({
-      model: "gpt-4.1-mini",
-      temperature: 0,
-      messages: [
-        {
-          role: "system",
-          content: `
+    const messages = [
+      {
+        role: "system",
+        content: `
 Du er et AI-baseret fagligt afklaringsværktøj om hypnoterapi.
 
 Din rolle er udelukkende at afklare spørgsmål fagligt gennem
@@ -32,28 +29,40 @@ Du kan modtage en struktureret kontekstblok, som angiver:
 - hvilken type faglig afklaring der er aktiv
 - hvilket tema der behandles
 - hvilket abstraktionsniveau der ønskes
+- om der er tale om gentagelse eller pres
 
 Denne kontekst repræsenterer ikke en relation, dialog eller proces.
 
 Du må ikke:
 - referere til tidligere spørgsmål eller svar
-- sige "som nævnt før", "tidligere", "igen"
 - stille opklarende eller uddybende spørgsmål
 - invitere til fortsættelse
-- reagere relationelt eller engagerende
+- reagere relationelt, engagerende eller vurderende
 
 Hvis kontekst angiver gentagelse eller pres,
 skal svaret være kortere og mere afgrænsende.
 
 Svar altid samlet, nøgternt og afsluttet.
+        `,
+      },
+    ];
 
-          `,
-        },
-        {
-          role: "user",
-          content: question,
-        },
-      ],
+    if (context && typeof context === "object") {
+      messages.push({
+        role: "system",
+        content: `KONTEKST (metadata, ikke dialog):\n${JSON.stringify(context)}`
+      });
+    }
+
+    messages.push({
+      role: "user",
+      content: question,
+    });
+
+    const completion = await client.chat.completions.create({
+      model: "gpt-4.1-mini",
+      temperature: 0,
+      messages,
     });
 
     return res.status(200).json({
