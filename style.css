@@ -1,3 +1,7 @@
+/* =========================================================
+   Base
+   ========================================================= */
+
 html, body {
   margin: 0;
   padding: 0;
@@ -12,6 +16,10 @@ html, body {
   box-sizing: border-box;
 }
 
+/* =========================================================
+   Typography utilities
+   ========================================================= */
+
 .text-h1 {
   font-size: 48px;
   line-height: 1.2;
@@ -19,10 +27,15 @@ html, body {
 
 .text-base-lg {
   font-size: 18px;
+  line-height: 1.7;
 }
 
+/* =========================================================
+   Layout
+   ========================================================= */
+
 header.hero {
-  padding: 4rem 1.5rem 3.5rem;
+  padding: 4rem 1.5rem 3rem;
   max-width: 860px;
   margin: 0 auto;
 }
@@ -41,52 +54,158 @@ section:last-child {
   border-bottom: none;
 }
 
-.logo img {
-  max-width: 96px;
-  padding: 10px;
-  background: #F4F2ED;
-  border-radius: 8px;
-}
+/* =========================================================
+   Headings & text
+   ========================================================= */
 
 h1, h2 {
   font-weight: 500;
   margin-bottom: 0.6rem;
 }
 
+h2 {
+  font-size: 1.4rem;
+}
+
 p {
   max-width: 65ch;
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
 }
+
+/* =========================================================
+   Links & buttons
+   ========================================================= */
 
 a {
   color: #2C2A28;
+  text-decoration: underline;
 }
 
-.cta {
-  display: inline-block;
-  margin-top: 2rem;
-  padding: 0.7rem 1.4rem;
+a:hover {
+  opacity: 0.8;
+}
+
+button {
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.6rem 1.4rem;
   border: 1px solid #2C2A28;
-  text-decoration: none;
+  background: transparent;
+  cursor: pointer;
 }
 
-#faglig-afklaring textarea {
-  width: 100%;
-  max-width: 65ch;
-  margin-top: 0.5rem;
+button:hover {
+  background: #2C2A28;
+  color: #EFEDE7;
 }
 
-#faglig-afklaring button {
-  margin-top: 1rem;
-}
+/* =========================================================
+   AI test / afklaringssektion
+   ========================================================= */
 
-#answer {
+.ai-test-box {
+  max-width: 720px;
   margin-top: 1.5rem;
-  max-width: 65ch;
-  white-space: pre-wrap;
 }
+
+.ai-field {
+  margin-bottom: 1.6rem;
+}
+
+.ai-field label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+}
+
+.ai-field textarea {
+  width: 100%;
+  max-width: 100%;
+  padding: 0.6rem;
+  font-family: inherit;
+  font-size: 1rem;
+  border: 1px solid #CFCBC2;
+  border-radius: 4px;
+  resize: vertical;
+  background: #FFF;
+  color: #2C2A28;
+}
+
+.ai-field textarea:focus {
+  outline: none;
+  border-color: #2C2A28;
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: #6A6763;
+  margin-top: 0.2rem;
+}
+
+.ai-actions {
+  margin-bottom: 1.6rem;
+}
+
+.ai-output {
+  background: #F4F2ED;
+  padding: 0.8rem;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  font-family: inherit;
+  font-size: 0.95rem;
+  border: 1px solid #D8D5CC;
+}
+
+.ai-status {
+  font-size: 0.9rem;
+  color: #4A4744;
+}
+
+.ai-field.meta {
+  border-top: 1px dashed #D8D5CC;
+  padding-top: 1rem;
+}
+
+/* =========================================================
+   Footer
+   ========================================================= */
 
 footer {
   text-align: center;
   padding: 2.5rem 1.5rem;
   font-size: 0.9rem;
+  color: #4A4744;
+}
+
+/* =========================================================
+   Animation
+   ========================================================= */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out;
+}
+
+/* =========================================================
+   Scrollbar (WebKit)
+   ========================================================= */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D8D5CC;
+  border-radius: 6px;
 }
