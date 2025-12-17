@@ -74,17 +74,8 @@ p {
 }
 
 /* =========================================================
-   Links & buttons
+   Buttons
    ========================================================= */
-
-a {
-  color: #2C2A28;
-  text-decoration: underline;
-}
-
-a:hover {
-  opacity: 0.8;
-}
 
 button {
   font-family: inherit;
@@ -101,7 +92,7 @@ button:hover {
 }
 
 /* =========================================================
-   AI test / afklaringssektion
+   AI test UI
    ========================================================= */
 
 .ai-test-box {
@@ -121,15 +112,12 @@ button:hover {
 
 .ai-field textarea {
   width: 100%;
-  max-width: 100%;
   padding: 0.6rem;
   font-family: inherit;
   font-size: 1rem;
   border: 1px solid #CFCBC2;
   border-radius: 4px;
   resize: vertical;
-  background: #FFF;
-  color: #2C2A28;
 }
 
 .ai-field textarea:focus {
@@ -143,28 +131,44 @@ button:hover {
   margin-top: 0.2rem;
 }
 
-.ai-actions {
-  margin-bottom: 1.6rem;
-}
-
 .ai-output {
   background: #F4F2ED;
   padding: 0.8rem;
   border-radius: 4px;
   white-space: pre-wrap;
-  font-family: inherit;
-  font-size: 0.95rem;
   border: 1px solid #D8D5CC;
-}
-
-.ai-status {
-  font-size: 0.9rem;
-  color: #4A4744;
 }
 
 .ai-field.meta {
   border-top: 1px dashed #D8D5CC;
   padding-top: 1rem;
+}
+
+.ai-metrics {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.5rem 0 1rem;
+}
+
+.ai-metrics li {
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+}
+
+.metric-ok {
+  color: #2F6F44;
+}
+
+.metric-warn {
+  color: #8A5A00;
+}
+
+.metric-bad {
+  color: #8A1F1F;
+}
+
+.ai-status {
+  font-size: 0.9rem;
 }
 
 /* =========================================================
@@ -195,17 +199,4 @@ footer {
 
 .animate-fadeIn {
   animation: fadeIn 0.25s ease-out;
-}
-
-/* =========================================================
-   Scrollbar (WebKit)
-   ========================================================= */
-
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #D8D5CC;
-  border-radius: 6px;
 }
