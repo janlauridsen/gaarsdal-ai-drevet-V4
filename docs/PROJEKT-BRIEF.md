@@ -245,13 +245,3 @@ Projektet er en succes, hvis:
 * AI’en forbliver hjælpsom uden at glide i rådgivning eller relation
 
 ---
-
-## Status
-
-Dette dokument er **FINAL**.
-
-Det anvendes som:
-
-* input til næste tråd
-* fælles reference for videre arbejde
-* stabil ramme, der kan udvides uden at ændre kerneidéen.
