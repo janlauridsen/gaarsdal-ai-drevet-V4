@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Faglig afklaring om hypnoterapi | Gaarsdal</title>
-  <meta name="description" content="Faglig afklaring om hypnoterapi. Ikke rådgivning eller behandling.">
+  <title>Faglig afklaring om hypnoterapi | Test</title>
+  <meta name="description" content="Intern testvisning for AI-drevet faglig afklaring om hypnoterapi.">
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -15,8 +15,9 @@
 <header class="hero">
   <h1 class="text-h1">Faglig afklaring om hypnoterapi</h1>
   <p class="text-base-lg">
-    Dette værktøj giver faglig afklaring og tydeliggør grænser.
-    Det giver ikke rådgivning, behandling eller forslag til handling.
+    Dette værktøj anvendes til intern test og finpudsning af et AI-baseret
+    fagligt afklaringslag. Det giver ikke rådgivning, behandling eller
+    forslag til handling.
   </p>
 </header>
 
@@ -28,7 +29,7 @@
   <div class="ai-test-box">
 
     <div class="ai-field">
-      <label for="question">Input (bruger/test)</label>
+      <label for="question">Input (bruger / test)</label>
       <textarea
         id="question"
         rows="4"
@@ -47,8 +48,31 @@
     </div>
 
     <div class="ai-field meta">
-      <label>Status</label>
-      <div id="status" class="ai-status">Klar</div>
+      <label>Test-observationer</label>
+
+      <ul class="ai-metrics">
+        <li>
+          <strong>Afklaringssignal:</strong>
+          <span id="metric-afklaring">–</span>
+        </li>
+        <li>
+          <strong>Relationel tone:</strong>
+          <span id="metric-relation">–</span>
+        </li>
+        <li>
+          <strong>Rådgivningsrisiko:</strong>
+          <span id="metric-raad">–</span>
+        </li>
+        <li>
+          <strong>Invitation til fortsættelse:</strong>
+          <span id="metric-invite">–</span>
+        </li>
+      </ul>
+
+      <div class="ai-status">
+        Samlet status:
+        <strong id="metric-status">Ikke vurderet</strong>
+      </div>
     </div>
 
   </div>
@@ -57,12 +81,9 @@
 </main>
 
 <footer>
-  <p>
-    Intern testvisning · AI-drevet faglig afklaring
-  </p>
+  <p>Intern testvisning · AI-drevet faglig afklaring</p>
 </footer>
 
 <script src="app.js"></script>
-
 </body>
 </html>
